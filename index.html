@@ -528,67 +528,80 @@ function chooseMethod(type) {
 }
 
 
-function continueAuth() {
+async function continueAuth() {
+
+    let value;
+
+    if (method === "phone") {
+        value = document.getElementById("phone").value.trim();
+    } else {
+        value = document.getElementById("email").value.trim();
+    }
+
+    if (value === "") {
+        alert("Iltimos, ma'lumotni kiriting.");
+        return;
+    }
 
     if (!otpSent) {
 
-        let value;
+        try {
 
-        if (method === "phone") {
+            const response = await fetch(API_URL + "/api/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    method: method,
+                    value: value
+                })
+            });
 
-            value = document.getElementById("phone").value;
+            const data = await response.json();
 
-        } else {
+            if (!response.ok) {
+                alert(data.message || "Xatolik yuz berdi.");
+                return;
+            }
 
-            value = document.getElementById("email").value;
+            alert(
+                "Ma'lumot serverga yuborildi.\n\n" +
+                "Hozircha OTP tizimi hali ulanmagan."
+            );
 
+            document.getElementById("otpBox").style.display = "block";
+
+            document.querySelector(".submit-btn").innerText =
+                "Tasdiqlash";
+
+            otpSent = true;
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Server bilan bog‘lanishda xatolik yuz berdi."
+            );
         }
-
-        if (value.trim() === "") {
-
-            alert("Iltimos, ma'lumotni kiriting.");
-
-            return;
-
-        }
-
-        alert(
-            "Tasdiqlash kodi yuborildi.\n\n" +
-            "Hozircha bu demo rejim. Haqiqiy SMS/email tizimi keyingi bosqichda ulanadi."
-        );
-
-        document.getElementById("otpBox").style.display = "block";
-
-        document.querySelector(".submit-btn").innerText =
-            "Tasdiqlash";
-
-        otpSent = true;
 
     } else {
 
-        let code = document.getElementById("otp").value;
+        let code = document.getElementById("otp").value.trim();
 
         if (code.length < 4) {
-
             alert("Tasdiqlash kodini kiriting.");
-
             return;
-
         }
 
-        closeAuth();
-
-        document.getElementById("home").style.display = "none";
-
-        document.querySelector(".features").style.display = "none";
-
-        document.getElementById("dashboard").style.display = "block";
-
-        alert("Demo akkaunt muvaffaqiyatli yaratildi!");
-
+        alert(
+            "OTP tizimi hali ulanmagan. " +
+            "Keyingi bosqichda haqiqiy tasdiqlash kodi qo‘shiladi."
+        );
     }
-
 }
+    
 
 
 function showPricing() {
