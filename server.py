@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 import os
 from flask_cors import CORS
+import resend
 app = Flask(__name__)
 CORS(app)
+resend.api_key = os.environ.get("RESEND_API_KEY")
 # Hozircha vaqtinchalik xotira.
 # Keyingi bosqichda haqiqiy database qo‘shamiz.
 users = {}
