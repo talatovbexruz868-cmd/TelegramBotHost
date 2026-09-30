@@ -8,7 +8,7 @@ resend.api_key = os.environ.get("RESEND_API_KEY")
 # Hozircha vaqtinchalik xotira.
 # Keyingi bosqichda haqiqiy database qo‘shamiz.
 users = {}
-
+otp_codes = {}
 
 @app.route("/")
 def home():
