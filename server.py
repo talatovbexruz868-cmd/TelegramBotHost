@@ -80,7 +80,57 @@ def register():
         "message": "OTP kodi yuborildi.",
         "method": method
     })
+@app.route("/api/verify", methods=["POST"])
+def verify():
+    data = request.get_json(silent=True) or {}
 
+    method = data.get("method")
+    value = data.get("value", "").strip()
+    code = data.get("code", "").strip()
+
+    if method not in ["email", "phone"]:
+        return jsonify({
+            "success": False,
+            "message": "Email yoki telefon usulini tanlang."
+        }), 400
+
+    if not value or not code:
+        return jsonify({
+            "success": False,
+            "message": "Ma'lumot va OTP kodini kiriting."
+        }), 400
+
+    record = otp_codes.get(value)
+
+    if not record:
+        return jsonify({
+            "success": False,
+            "message": "OTP kodi topilmadi yoki muddati tugagan."
+        }), 400
+
+    if time.time() > record["expires_at"]:
+        otp_codes.pop(value, None)
+
+        return jsonify({
+            "success": False,
+            "message": "OTP kodining 1 daqiqalik muddati tugagan."
+        }), 400
+
+    if code != record["code"]:
+        return jsonify({
+            "success": False,
+            "message": "OTP kodi noto'g'ri."
+        }), 400
+
+    if value in users:
+        users[value]["verified"] = True
+
+    otp_codes.pop(value, None)
+
+    return jsonify({
+        "success": True,
+        "message": "Akkaunt muvaffaqiyatli tasdiqlandi."
+    })
 @app.route("/api/status", methods=["GET"])
 def status():
     return jsonify({
