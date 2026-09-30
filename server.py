@@ -51,17 +51,35 @@ def register():
             "message": "Bu ma'lumot bilan akkaunt allaqachon mavjud."
         }), 409
 
+    import random
+
+    otp = str(random.randint(100000, 999999))
+
     users[value] = {
         "method": method,
         "verified": False
     }
 
+    otp_codes[value] = otp
+
+    if method == "email":
+        resend.Emails.send({
+            "from": "onboarding@resend.dev",
+            "to": [value],
+            "subject": "TelegramBotHost OTP kodi",
+            "html": f"""
+                <h2>TelegramBotHost</h2>
+                <p>Sizning tasdiqlash kodingiz:</p>
+                <h1>{otp}</h1>
+                <p>Bu kodni hech kimga bermang.</p>
+            """
+        })
+
     return jsonify({
         "success": True,
-        "message": "Ma'lumot qabul qilindi.",
+        "message": "OTP kodi yuborildi.",
         "method": method
     })
-
 
 @app.route("/api/status", methods=["GET"])
 def status():
@@ -74,4 +92,4 @@ def status():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=por) 
+    app.run(host="0.0.0.0", port=port) 
