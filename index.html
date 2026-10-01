@@ -1,280 +1,263 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>TelegramBotHost</title>
+<title>TelegramBotHost</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
 
-        body {
-            background: #f4f7fb;
-            color: #172033;
-            min-height: 100vh;
-        }
+body {
+    background: #f4f7fb;
+    color: #172033;
+}
 
-        /* HEADER */
-        header {
-            height: 70px;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 25px;
-            border-bottom: 1px solid #e5e9f0;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
+header {
+    height: 70px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    border-bottom: 1px solid #e5e9f0;
+}
 
-        .logo {
-            font-size: 21px;
-            font-weight: bold;
-            color: #1683e8;
-        }
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+    color: #1683e8;
+}
 
-        .header-btn {
-            background: #1683e8;
-            color: white;
-            border: none;
-            padding: 11px 18px;
-            border-radius: 10px;
-            font-size: 14px;
-            cursor: pointer;
-        }
+.header-btn,
+.main-btn {
+    background: #1683e8;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+}
 
-        /* HERO */
-        .hero {
-            max-width: 1100px;
-            margin: auto;
-            padding: 80px 20px;
-            text-align: center;
-        }
+.hero {
+    max-width: 1100px;
+    margin: auto;
+    padding: 75px 20px;
+    text-align: center;
+}
 
-        .hero h1 {
-            font-size: 42px;
-            margin-bottom: 18px;
-        }
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 18px;
+}
 
-        .hero h1 span {
-            color: #1683e8;
-        }
+.hero h1 span {
+    color: #1683e8;
+}
 
-        .hero p {
-            color: #667085;
-            font-size: 18px;
-            line-height: 1.6;
-            max-width: 650px;
-            margin: auto;
-        }
+.hero p {
+    color: #667085;
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 680px;
+    margin: auto;
+}
 
-        .hero-buttons {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
+.hero-buttons {
+    margin-top: 30px;
+}
 
-        .main-btn {
-            background: #1683e8;
-            color: white;
-            border: none;
-            padding: 14px 25px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+.features {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
 
-        .second-btn {
-            background: white;
-            color: #172033;
-            border: 1px solid #d9dee8;
-            padding: 14px 25px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+.feature {
+    background: white;
+    padding: 28px;
+    border-radius: 16px;
+    border: 1px solid #e6eaf0;
+}
 
-        /* FEATURES */
-        .features {
-            max-width: 1100px;
-            margin: auto;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-        }
+.feature-icon {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
 
-        .feature {
-            background: white;
-            padding: 28px;
-            border-radius: 16px;
-            border: 1px solid #e6eaf0;
-        }
+.feature h3 {
+    margin-bottom: 10px;
+}
 
-        .feature-icon {
-            font-size: 30px;
-            margin-bottom: 15px;
-        }
+.feature p {
+    color: #667085;
+    line-height: 1.5;
+}
 
-        .feature h3 {
-            margin-bottom: 10px;
-        }
+.modal-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 100;
+}
 
-        .feature p {
-            color: #667085;
-            line-height: 1.5;
-        }
+.modal {
+    background: white;
+    width: 100%;
+    max-width: 480px;
+    border-radius: 20px;
+    padding: 28px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
 
-        /* MODAL */
-        .modal-bg {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.45);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            z-index: 100;
-        }
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    border: none;
+    background: none;
+    font-size: 25px;
+    cursor: pointer;
+}
 
-        .modal {
-            background: white;
-            width: 100%;
-            max-width: 430px;
-            border-radius: 20px;
-            padding: 28px;
-            position: relative;
-        }
+.modal h2 {
+    margin-bottom: 8px;
+}
 
-        .close {
-            position: absolute;
-            right: 20px;
-            top: 15px;
-            border: none;
-            background: none;
-            font-size: 25px;
-            cursor: pointer;
-        }
+.modal-text {
+    color: #667085;
+    margin-bottom: 22px;
+}
 
-        .modal h2 {
-            margin-bottom: 8px;
-        }
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d9dee8;
+    border-radius: 10px;
+    margin: 8px 0 15px;
+    font-size: 15px;
+}
 
-        .modal-text {
-            color: #667085;
-            margin-bottom: 22px;
-        }
+label {
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 10px;
+}
 
-        .tabs {
-            display: flex;
-            margin-bottom: 20px;
-            background: #f1f4f8;
-            padding: 4px;
-            border-radius: 10px;
-        }
+.submit-btn {
+    width: 100%;
+    padding: 13px;
+    background: #1683e8;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 8px;
+}
 
-        .tab {
-            width: 50%;
-            padding: 10px;
-            border: none;
-            background: transparent;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+.dashboard {
+    display: none;
+    max-width: 1100px;
+    margin: auto;
+    padding: 35px 20px;
+}
 
-        .tab.active {
-            background: white;
-            font-weight: bold;
-        }
+.dashboard h1 {
+    margin-bottom: 25px;
+}
 
-        label {
-            display: block;
-            font-size: 14px;
-            margin-bottom: 7px;
-            font-weight: bold;
-        }
+.bot-card {
+    background: white;
+    border: 1px solid #e5e9f0;
+    padding: 25px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+}
 
-        input {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #d9dee8;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            font-size: 15px;
-            outline: none;
-        }
+.bot-card p {
+    color: #667085;
+    margin: 8px 0 18px;
+}
 
-        input:focus {
-            border-color: #1683e8;
-        }
+.status {
+    font-weight: bold;
+}
 
-        .submit-btn {
-            width: 100%;
-            padding: 13px;
-            background: #1683e8;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 15px;
-        }
+.status.online {
+    color: #16a34a;
+}
 
-        .otp-box {
-            display: none;
-        }
+.status.offline {
+    color: #dc2626;
+}
 
-        .dashboard {
-            display: none;
-            max-width: 1100px;
-            margin: auto;
-            padding: 35px 20px;
-        }
+.action-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
 
-        .dashboard h1 {
-            margin-bottom: 25px;
-        }
+.stop-btn {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
 
-        .bot-card {
-            background: white;
-            border: 1px solid #e5e9f0;
-            padding: 25px;
-            border-radius: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
+.file-box {
+    border: 2px dashed #cbd5e1;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin: 10px 0 18px;
+}
 
-        .status {
-            color: #16a34a;
-            font-weight: bold;
-        }
+.hidden {
+    display: none;
+}
 
-        /* MOBILE */
-        @media(max-width: 700px) {
-            .hero h1 {
-                font-size: 31px;
-            }
+.message {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #f1f5f9;
+}
 
-            .features {
-                grid-template-columns: 1fr;
-            }
+@media(max-width:700px) {
+    .hero h1 {
+        font-size: 31px;
+    }
 
-            header {
-                padding: 0 15px;
-            }
-        }
-    </style>
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        padding: 0 15px;
+    }
+}
+</style>
 </head>
 
 <body>
@@ -282,13 +265,10 @@
 <header>
     <div class="logo">TelegramBotHost</div>
 
-    <button class="header-btn" onclick="openAuth()">
+    <button class="header-btn" onclick="openLogin()">
         Kirish
     </button>
 </header>
-
-
-<!-- BOSH SAHIFA -->
 
 <section class="hero" id="home">
 
@@ -299,155 +279,118 @@
 
     <p>
         Bot kodingizni yuklang, Telegram Bot Tokeningizni kiriting
-        va botingizni serverda doimiy ishlating.
-        Telefoningiz yoki saytingiz o‘chiq bo‘lsa ham bot ishlashda davom etadi.
+        va botingizni serverda ishga tushiring.
     </p>
 
     <div class="hero-buttons">
-
-        <button class="main-btn" onclick="openAuth()">
+        <button class="main-btn" onclick="openLogin()">
             Boshlash
         </button>
-
-        <button class="second-btn" onclick="showPricing()">
-            Tariflar
-        </button>
-
     </div>
 
 </section>
-
-
-<!-- AFZALLIKLAR -->
 
 <section class="features">
 
     <div class="feature">
-
         <div class="feature-icon">🤖</div>
-
         <h3>24/7 Bot</h3>
-
-        <p>
-            Bot serverda ishlaydi.
-            Telefoningiz internetdan uzilsa ham bot faol qoladi.
-        </p>
-
+        <p>Bot serverda ishlaydi.</p>
     </div>
 
-
     <div class="feature">
-
         <div class="feature-icon">⚡</div>
-
         <h3>RUN / STOP</h3>
-
-        <p>
-            Botni istalgan vaqtda ishga tushiring,
-            to‘xtating yoki qayta ishga tushiring.
-        </p>
-
+        <p>Botni ishga tushirish yoki to‘xtatish mumkin.</p>
     </div>
 
-
     <div class="feature">
-
         <div class="feature-icon">🔒</div>
-
         <h3>Xavfsiz</h3>
-
-        <p>
-            Har bir foydalanuvchining botlari
-            alohida muhitda ishlashi uchun tizim quriladi.
-        </p>
-
+        <p>Bot boshqaruvi himoyalangan.</p>
     </div>
 
 </section>
 
+<!-- LOGIN -->
 
-<!-- LOGIN / REGISTER -->
-
-<div class="modal-bg" id="authModal">
+<div class="modal-bg" id="loginModal">
 
     <div class="modal">
 
-        <button class="close" onclick="closeAuth()">×</button>
+        <button class="close" onclick="closeLogin()">×</button>
 
-        <h2 id="authTitle">Ro‘yxatdan o‘tish</h2>
+        <h2>Kirish</h2>
 
         <p class="modal-text">
-            Email yoki telefon raqamingiz orqali davom eting.
+            TelegramBotHost boshqaruv paneliga kirish.
         </p>
 
+        <label>Host Admin Key</label>
 
-        <div class="tabs">
+        <input
+            type="password"
+            id="adminKey"
+            placeholder="Admin key"
+        >
 
-            <button class="tab active" id="phoneTab"
-                    onclick="chooseMethod('phone')">
-                Telefon
-            </button>
-
-            <button class="tab" id="emailTab"
-                    onclick="chooseMethod('email')">
-                Email
-            </button>
-
-        </div>
-
-
-        <!-- TELEFON -->
-
-        <div id="phoneForm">
-
-            <label>Telefon raqami</label>
-
-            <input
-                type="tel"
-                id="phone"
-                placeholder="+998 90 123 45 67"
-            >
-
-        </div>
-
-
-        <!-- EMAIL -->
-
-        <div id="emailForm" style="display:none;">
-
-            <label>Email manzil</label>
-
-            <input
-                type="email"
-                id="email"
-                placeholder="example@gmail.com"
-            >
-
-        </div>
-
-
-        <div class="otp-box" id="otpBox">
-
-            <label>Tasdiqlash kodi</label>
-
-            <input
-                type="text"
-                id="otp"
-                maxlength="6"
-                placeholder="6 xonali kod"
-            >
-
-        </div>
-
-
-        <button class="submit-btn" onclick="continueAuth()">
-            Davom etish
+        <button class="submit-btn" onclick="login()">
+            Kirish
         </button>
 
     </div>
 
 </div>
 
+<!-- BOT -->
+
+<div class="modal-bg" id="botModal">
+
+    <div class="modal">
+
+        <button class="close" onclick="closeBot()">×</button>
+
+        <h2>🤖 Yangi bot</h2>
+
+        <p class="modal-text">
+            Bot ma'lumotlarini kiriting.
+        </p>
+
+        <label>Bot nomi</label>
+
+        <input
+            type="text"
+            id="botName"
+            placeholder="Masalan: Mening Botim"
+        >
+
+        <label>Telegram Bot Token</label>
+
+        <input
+            type="password"
+            id="botToken"
+            placeholder="Telegram BotFather bergan token"
+        >
+
+        <label>Python bot fayli (.py)</label>
+
+        <div class="file-box">
+            <input
+                type="file"
+                id="botFile"
+                accept=".py"
+            >
+        </div>
+
+        <button class="submit-btn" onclick="uploadBot()">
+            🚀 Botni yuklash
+        </button>
+
+        <div id="botMessage" class="message hidden"></div>
+
+    </div>
+
+</div>
 
 <!-- DASHBOARD -->
 
@@ -457,166 +400,353 @@
 
     <div class="bot-card">
 
-        <div>
-            <h3>🤖 Mening botim</h3>
+        <h2 id="dashboardBotName">
+            🤖 Bot hali qo‘shilmagan
+        </h2>
 
-            <p>
-                Hozircha bot qo‘shilmagan.
-            </p>
+        <p id="dashboardFile">
+            Python fayl yuklanmagan.
+        </p>
 
-            <br>
-
-            <span class="status">
-                ● Tizim tayyor
-            </span>
+        <div id="dashboardStatus"
+             class="status offline">
+            ● To‘xtagan
         </div>
 
-        <button class="main-btn">
-            + Yangi bot
-        </button>
+        <div class="action-row">
+
+            <button
+                class="main-btn"
+                onclick="openBotModal()">
+                + Yangi bot
+            </button>
+
+            <button
+                class="main-btn"
+                onclick="runBot()">
+                ▶ RUN
+            </button>
+
+            <button
+                class="stop-btn"
+                onclick="stopBot()">
+                ■ STOP
+            </button>
+
+        </div>
+
+        <div id="dashboardMessage"
+             class="message hidden">
+        </div>
 
     </div>
 
 </section>
 
-
 <script>
 
-let method = "phone";
-let otpSent = false;
+const API_URL =
+    "https://telegrambothost-2wpl.onrender.com";
 
+let adminKey = "";
 
-function openAuth() {
-
-    document.getElementById("authModal").style.display = "flex";
-
+function openLogin() {
+    document.getElementById("loginModal").style.display = "flex";
 }
 
-
-function closeAuth() {
-
-    document.getElementById("authModal").style.display = "none";
-
+function closeLogin() {
+    document.getElementById("loginModal").style.display = "none";
 }
 
-
-function chooseMethod(type) {
-
-    method = type;
-
-    document.getElementById("phoneTab").classList.remove("active");
-    document.getElementById("emailTab").classList.remove("active");
-
-    if (type === "phone") {
-
-        document.getElementById("phoneTab").classList.add("active");
-
-        document.getElementById("phoneForm").style.display = "block";
-
-        document.getElementById("emailForm").style.display = "none";
-
-    } else {
-
-        document.getElementById("emailTab").classList.add("active");
-
-        document.getElementById("phoneForm").style.display = "none";
-
-        document.getElementById("emailForm").style.display = "block";
-
-    }
-
+function openBotModal() {
+    document.getElementById("botModal").style.display = "flex";
 }
 
+function closeBot() {
+    document.getElementById("botModal").style.display = "none";
+}
 
-async function continueAuth() {
+async function login() {
 
-    let value;
+    const key =
+        document.getElementById("adminKey").value.trim();
 
-    if (method === "phone") {
-        value = document.getElementById("phone").value.trim();
-    } else {
-        value = document.getElementById("email").value.trim();
-    }
-
-    if (value === "") {
-        alert("Iltimos, ma'lumotni kiriting.");
+    if (!key) {
+        alert("Admin keyni kiriting.");
         return;
     }
 
-    if (!otpSent) {
+    adminKey = key;
 
-        try {
+    try {
 
-            const response = await fetch(API_URL + "/api/register", {
-                method: "POST",
+        const response = await fetch(
+            API_URL + "/api/bot/status",
+            {
                 headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    method: method,
-                    value: value
-                })
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                alert(data.message || "Xatolik yuz berdi.");
-                return;
+                    "X-Admin-Key": adminKey
+                }
             }
+        );
 
-            alert(
-                "Ma'lumot serverga yuborildi.\n\n" +
-                "Hozircha OTP tizimi hali ulanmagan."
-            );
-
-            document.getElementById("otpBox").style.display = "block";
-
-            document.querySelector(".submit-btn").innerText =
-                "Tasdiqlash";
-
-            otpSent = true;
-
-        } catch (error) {
-
-            console.error(error);
-
-            alert(
-                "Server bilan bog‘lanishda xatolik yuz berdi."
-            );
-        }
-
-    } else {
-
-        let code = document.getElementById("otp").value.trim();
-
-        if (code.length < 4) {
-            alert("Tasdiqlash kodini kiriting.");
+        if (!response.ok) {
+            alert("Admin key noto‘g‘ri.");
+            adminKey = "";
             return;
         }
 
-        alert(
-            "OTP tizimi hali ulanmagan. " +
-            "Keyingi bosqichda haqiqiy tasdiqlash kodi qo‘shiladi."
+        closeLogin();
+
+        document.getElementById("home").style.display = "none";
+
+        document.querySelector(".features").style.display = "none";
+
+        document.getElementById("dashboard").style.display = "block";
+
+        await updateStatus();
+
+    } catch (error) {
+
+        alert("Server bilan bog‘lanib bo‘lmadi.");
+
+    }
+}
+
+async function uploadBot() {
+
+    const name =
+        document.getElementById("botName").value.trim();
+
+    const token =
+        document.getElementById("botToken").value.trim();
+
+    const file =
+        document.getElementById("botFile").files[0];
+
+    if (!name) {
+        alert("Bot nomini kiriting.");
+        return;
+    }
+
+    if (!token) {
+        alert("Telegram Bot Tokenni kiriting.");
+        return;
+    }
+
+    if (!file) {
+        alert("Python .py faylini tanlang.");
+        return;
+    }
+
+    if (!file.name.endsWith(".py")) {
+        alert("Faqat .py fayl yuklash mumkin.");
+        return;
+    }
+
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("token", token);
+    formData.append("file", file);
+
+    showBotMessage("Bot yuklanmoqda...");
+
+    try {
+
+        const response = await fetch(
+            API_URL + "/api/bot/upload",
+            {
+                method: "POST",
+                headers: {
+                    "X-Admin-Key": adminKey
+                },
+                body: formData
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            showBotMessage(data.message || "Xatolik.");
+            return;
+        }
+
+        showBotMessage(
+            "✅ Bot muvaffaqiyatli yuklandi."
+        );
+
+        document.getElementById(
+            "dashboardBotName"
+        ).innerText = "🤖 " + name;
+
+        document.getElementById(
+            "dashboardFile"
+        ).innerText = file.name;
+
+        setTimeout(() => {
+            closeBot();
+        }, 1000);
+
+    } catch (error) {
+
+        showBotMessage(
+            "Server bilan bog‘lanishda xatolik."
         );
     }
 }
-    
 
+async function runBot() {
 
-function showPricing() {
-
-    alert(
-        "Tariflar:\n\n" +
-        "1 oy — BEPUL TRIAL\n" +
-        "Basic — $5 / oy\n" +
-        "Ultra Pro — $10 / oy\n\n" +
-        "To‘lov tizimi keyingi bosqichda ulanadi."
+    showDashboardMessage(
+        "Bot ishga tushirilmoqda..."
     );
 
+    try {
+
+        const response = await fetch(
+            API_URL + "/api/bot/run",
+            {
+                method: "POST",
+                headers: {
+                    "X-Admin-Key": adminKey
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        showDashboardMessage(
+            data.message || "Tayyor."
+        );
+
+        await updateStatus();
+
+    } catch (error) {
+
+        showDashboardMessage(
+            "Botni ishga tushirishda xatolik."
+        );
+    }
 }
-const API_URL = "https://telegrambothost-2wpl.onrender.com";
+
+async function stopBot() {
+
+    showDashboardMessage(
+        "Bot to‘xtatilmoqda..."
+    );
+
+    try {
+
+        const response = await fetch(
+            API_URL + "/api/bot/stop",
+            {
+                method: "POST",
+                headers: {
+                    "X-Admin-Key": adminKey
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        showDashboardMessage(
+            data.message || "Bot to‘xtatildi."
+        );
+
+        await updateStatus();
+
+    } catch (error) {
+
+        showDashboardMessage(
+            "Botni to‘xtatishda xatolik."
+        );
+    }
+}
+
+async function updateStatus() {
+
+    try {
+
+        const response = await fetch(
+            API_URL + "/api/bot/status",
+            {
+                headers: {
+                    "X-Admin-Key": adminKey
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        const status =
+            document.getElementById("dashboardStatus");
+
+        if (data.running) {
+
+            status.innerText =
+                "● Ishlayapti";
+
+            status.className =
+                "status online";
+
+        } else {
+
+            status.innerText =
+                "● To‘xtagan";
+
+            status.className =
+                "status offline";
+        }
+
+        if (data.name) {
+
+            document.getElementById(
+                "dashboardBotName"
+            ).innerText =
+                "🤖 " + data.name;
+        }
+
+        if (data.file) {
+
+            document.getElementById(
+                "dashboardFile"
+            ).innerText =
+                data.file;
+        }
+
+    } catch (error) {
+
+        console.log(error);
+    }
+}
+
+function showBotMessage(message) {
+
+    const box =
+        document.getElementById("botMessage");
+
+    box.innerText = message;
+    box.classList.remove("hidden");
+}
+
+function showDashboardMessage(message) {
+
+    const box =
+        document.getElementById("dashboardMessage");
+
+    box.innerText = message;
+    box.classList.remove("hidden");
+}
+
+setInterval(() => {
+
+    if (adminKey) {
+        updateStatus();
+    }
+
+}, 5000);
+
 </script>
 
 </body>
-</html>
+    </html>
